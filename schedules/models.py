@@ -60,7 +60,7 @@ class UserClient(models.Model):
 class Service(models.Model):
 	service_amount		= models.FloatField(validators=[MinValueValidator(0)], default=0)
 	number_of_fees		= models.IntegerField(validators=[MinValueValidator(0)], default=0)
-	schedule_frecuency	= models.CharField(max_length=20, choices=FREQUENCY_CHOICES)
+	schedule_frequency	= models.CharField(max_length=20, choices=FREQUENCY_CHOICES)
 	start_date			= models.DateField()
 	is_active			= models.BooleanField(default=True)
 	observations		= models.CharField(max_length=500, default='')

@@ -35,7 +35,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 		return qs
 
 	def get service_fees_summary(self, obj):
-		today = datetime.today().date()
+		today = date.today()
 		schedules = obj.schedule_set.all()
 		amount_dic ={}
 		paid_fees = schedules.filter(is_payed=True)

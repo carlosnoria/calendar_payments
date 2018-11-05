@@ -83,7 +83,7 @@ class UserServicesActiveListView(APIView):
 class UnpaidSchedulesListView(APIView):
 	
 	def get(self, request, format=None):
-		today = datetime.today().date()
+		today = date.today()
 		schedules = Schedules.objects.filter(is_payed=False, is_active=True, payment_date__lte=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
 		serializer = ScheduleSerializer(schedules, many=True)
@@ -98,7 +98,7 @@ class SchedulesDetailView(APIView):
 class DiscardedUnpaidSchedulesListByServiceView(APIView):
 
 	def get(self, request, servicepk, format=None):
-		today = datetime.today().date()
+		today = date.today()
 		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_active=False, 
 			is_payed=False, payment_date__lte=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
@@ -108,7 +108,7 @@ class DiscardedUnpaidSchedulesListByServiceView(APIView):
 class UnpaidSchedulesListByServiceView(APIView):
 
 	def get(self, request, servicepk, format=None):
-		today = datetime.today().date()
+		today = date.today()
 		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_payed=False, is_active=True,
 		payment_date__lte=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
@@ -118,7 +118,7 @@ class UnpaidSchedulesListByServiceView(APIView):
 class SchedulesToBePaidListByServiceView(APIView):
 	
 	def get(self, request, servicepk, format=None):
-		today = datetime.today().date()
+		today = date.today()
 		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_payed=False, is_active=True,
 		payment_date__gt=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
