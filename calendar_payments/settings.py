@@ -90,15 +90,11 @@ if DB == 1:
 
 if DB == 4:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'ebdb',
-            'USER': 'kronodb3prod',
-            'PASSWORD': 'f9rE8nXUiPGmBbySFE9v4Dk84FAdxeeVkEr8NGSX77',
-            'HOST': 'aa1ppkssbqvaurb.ckgxkuvhb7qp.us-east-1.rds.amazonaws.com',
-            'PORT': '5432',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
 
 
 # Password validation
