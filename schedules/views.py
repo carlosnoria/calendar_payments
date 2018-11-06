@@ -8,6 +8,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
+from datetime import datetime, date
 
 # UserAdmin Views
 class UserAdminListView(APIView):
@@ -84,7 +85,7 @@ class UnpaidSchedulesListView(APIView):
 	
 	def get(self, request, format=None):
 		today = date.today()
-		schedules = Schedules.objects.filter(is_payed=False, is_active=True, payment_date__lte=today)
+		schedules = Schedules.objects.filter(is_paid=False, is_active=True, payment_date__lte=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
 		serializer = ScheduleSerializer(schedules, many=True)
 		return Response(serializer.data)
@@ -100,7 +101,7 @@ class DiscardedUnpaidSchedulesListByServiceView(APIView):
 	def get(self, request, servicepk, format=None):
 		today = date.today()
 		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_active=False, 
-			is_payed=False, payment_date__lte=today)
+			is_paid=False, payment_date__lte=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
 		serializer = ScheduleSerializer(schedules, many=True)
 		return Response(serializer.data)
@@ -109,7 +110,7 @@ class UnpaidSchedulesListByServiceView(APIView):
 
 	def get(self, request, servicepk, format=None):
 		today = date.today()
-		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_payed=False, is_active=True,
+		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_paid=False, is_active=True,
 		payment_date__lte=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
 		serializer = ScheduleSerializer(schedules, many=True)
@@ -119,7 +120,7 @@ class SchedulesToBePaidListByServiceView(APIView):
 	
 	def get(self, request, servicepk, format=None):
 		today = date.today()
-		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_payed=False, is_active=True,
+		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_paid=False, is_active=True,
 		payment_date__gt=today)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
 		serializer = ScheduleSerializer(schedules, many=True)
@@ -128,7 +129,7 @@ class SchedulesToBePaidListByServiceView(APIView):
 class PaidSchedulesListByService(APIView):
 	
 	def get(self, request, servicepk, format=None):
-		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_payed=True)
+		schedules = Schedules.objects.filter(serviceId__id=servicepk, is_paid=True)
 		schedules = ScheduleSerializer.setup_eager_loading(schedules)
 		serializer = ScheduleSerializer(schedules, many=True)
 		return Response(serializer.data)

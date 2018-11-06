@@ -50,6 +50,7 @@ class UserClient(models.Model):
         ]
     )
     email		= models.EmailField(unique=True, null=True, blank=True)
+    address		= models.Charfield(max_length=500)
     is_active	= models.BooleanField(deafult=True)
     created		= models.DateTimeField(auto_now_add=True)
     created_by  = models.ForeingKey(UserAdmin, on_delete=models.SET_NULL, null=True, blank=True)
@@ -74,8 +75,9 @@ class Service(models.Model):
 class Schedule(models.Model):
 	payment_date 	= model.DateField()
 	fee_amount		= models.FloatField(validators=[MinValueValidator(0)], default=0)
+	paid_amount		= models.FloatField(validators=[MinValueValidator(0)], default=0)
 	is_active		= models.BooleanField(default=True)
-	is_payed		= models.BooleanField(default=False)
+	is_paid			= models.BooleanField(default=False)
 	serviceId		= models.ForeingKey(Service, on_delete=models.CASCADE)
 
 	class Meta:
